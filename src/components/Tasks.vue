@@ -1,13 +1,25 @@
 <template>
   <div class="hello">
     <div class="holder">
+      <h1>Denny-Do List</h1>
       <p v-if="tasks.length > 1">You have {{tasks.length}} tasks to complete!  Get working.</p>
       <p v-else>You've finished all your tasks!  Time for more!</p>
-      <ul>
-        <li v-for="(data, index) in tasks" :key="index">{{data.task}}</li>
-      </ul>
+      <p>Hear are your tasks for the day:</p>
+      <form @submit.prevent="addSkill">
+      <!-- add 'required:true', to v-validate -->
+      <!-- https://blog.pusher.com/complete-guide-to-form-validation-in-vue/ -->
+       <input type="text" placeholder="Enter a task..." v-model="task" v-validate="'min:5'" name="skill">
+      <!-- errors comes from vee-validate -->
+      <transition name="alert-in" enter-active-class="animated flipInX" leave-active-class="animated flipOutX">
+       <p class="alert" v-if="errors.has('skill')">{{errors.first('skill')}}</p>
+      </transition>
+      </form>
       
-      <p>Hear are your tasks for the day.</p>
+      <ul>
+        <transition-group name="list" enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutDown">
+          <li v-for="(data, index) in tasks" :key="index">{{data.task}}</li>
+        </transition-group>
+      </ul>
       </div>
     </div>
   
@@ -18,15 +30,25 @@ export default {
   name: "Tasks",
   data() {
     return {
+      task: "",
       tasks: [
         { task: "Do your taxes." },
         { task: "Work out for an hour." },
         { task: "Do laundry." }
-      ],
-      bgColor: "blue",
-      bgWidth: "70%",
-      bgHeight: "10%"
-    };
+      ]
+    }
+  },
+  methods: {
+    addSkill(){
+      this.$validator.validateAll().then((result) => {
+        if(result){
+          this.tasks.push({task: this.task})
+          this.task="";
+        } else {
+          console.log('Not valid');
+        }
+      })
+    }
   }
 };
 </script>
@@ -35,6 +57,8 @@ export default {
 <!-- add a src="[location]" in the style tag to include external css -->
 
 <style scoped>
+  /* import the animate css library */
+@import "https://cdn.jsdelivr.net/npm/animate.css@3.5.1";
 .holder {
   background: #fff;
 }
@@ -53,14 +77,52 @@ ul li {
   margin-bottom: 2px;
   color: #3e5252;
 }
-
+h1 {
+  padding-top: 10px;
+  text-align: center;
+}
 p {
   text-align: center;
-  padding: 30px 0;
   color: gray;
 }
 
 .container {
   box-shadow: 0px 0px 40px lightgray;
+}
+
+input {
+  width: calc(100% - 40px);
+  border: 0;
+  padding: 20px;
+  font-size: 1.3em;
+  background-color: #323333;
+  color: #687f7f;
+}
+
+.alert{
+  background: #fdf2ce;
+  font-weight: bold;
+  display: inline-block;
+  padding: 5px;
+  margin-top: -20px;
+}
+
+.alert-in-enter-active{
+  animation: bounce-in .5s;
+}
+.alert-in-leave-active{
+  animation: bounce-in .5s reverse;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>
