@@ -2,10 +2,9 @@
   <div class="hello">
     <div class="holder">
       <form @submit.prevent="addSkill">
-      <!-- add 'required:true', to v-validate -->
-      <!-- https://blog.pusher.com/complete-guide-to-form-validation-in-vue/ -->
+
        <input type="text" placeholder="Enter a task..." v-model="task" v-validate="'min:5'" name="skill">
-      <!-- errors comes from vee-validate -->
+     
       <transition name="alert-in" enter-active-class="animated flipInX" leave-active-class="animated flipOutX">
        <p class="alert" v-if="errors.has('skill')">{{errors.first('skill')}}</p>
       </transition>
@@ -59,7 +58,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <!-- add a src="[location]" in the style tag to include external css -->
-
 <style scoped>
 /* import the animate css library */
 @import "https://cdn.jsdelivr.net/npm/animate.css@3.5.1";
