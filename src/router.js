@@ -13,7 +13,7 @@ export default new Router({
             component: Tasks
         },
         {
-            path: '/about',
+            path: '/about/:name?',
             name: 'about',
             component: About
         }

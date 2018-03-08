@@ -1,10 +1,6 @@
 <template>
   <div class="hello">
     <div class="holder">
-      <h1>Denny-Do List</h1>
-      <p v-if="tasks.length > 1">You have {{tasks.length}} tasks to complete!  Get working.</p>
-      <p v-else>You've finished all your tasks!  Time for more!</p>
-      <p>Hear are your tasks for the day:</p>
       <form @submit.prevent="addSkill">
       <!-- add 'required:true', to v-validate -->
       <!-- https://blog.pusher.com/complete-guide-to-form-validation-in-vue/ -->
@@ -17,9 +13,14 @@
       
       <ul>
         <transition-group name="list" enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutDown">
-          <li v-for="(data, index) in tasks" :key="index">{{data.task}}</li>
+          <li v-for="(data, index) in tasks" :key="index">
+            {{data.task}}
+            <i class="fa fa-minus-circle" v-on:click="remove(index)"></i>
+            </li>
         </transition-group>
       </ul>
+      <p v-if="tasks.length >= 1">You have {{tasks.length}} tasks to complete!  Get working.</p>
+      <p v-else>You've finished all your tasks!  Time for more!</p>
       </div>
     </div>
   
@@ -36,18 +37,21 @@ export default {
         { task: "Work out for an hour." },
         { task: "Do laundry." }
       ]
-    }
+    };
   },
   methods: {
-    addSkill(){
-      this.$validator.validateAll().then((result) => {
-        if(result){
-          this.tasks.push({task: this.task})
-          this.task="";
+    addSkill() {
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          this.tasks.push({ task: this.task });
+          this.task = "";
         } else {
-          console.log('Not valid');
+          console.log("Not valid");
         }
-      })
+      });
+    },
+    remove(id){
+      this.tasks.splice(id, 1)
     }
   }
 };
@@ -57,8 +61,10 @@ export default {
 <!-- add a src="[location]" in the style tag to include external css -->
 
 <style scoped>
-  /* import the animate css library */
+/* import the animate css library */
 @import "https://cdn.jsdelivr.net/npm/animate.css@3.5.1";
+/* import font-awesome */
+@import "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"; 
 .holder {
   background: #fff;
 }
@@ -77,11 +83,9 @@ ul li {
   margin-bottom: 2px;
   color: #3e5252;
 }
-h1 {
-  padding-top: 10px;
-  text-align: center;
-}
+
 p {
+  padding-bottom: 20px;
   text-align: center;
   color: gray;
 }
@@ -99,7 +103,7 @@ input {
   color: #687f7f;
 }
 
-.alert{
+.alert {
   background: #fdf2ce;
   font-weight: bold;
   display: inline-block;
@@ -107,11 +111,11 @@ input {
   margin-top: -20px;
 }
 
-.alert-in-enter-active{
-  animation: bounce-in .5s;
+.alert-in-enter-active {
+  animation: bounce-in 0.5s;
 }
-.alert-in-leave-active{
-  animation: bounce-in .5s reverse;
+.alert-in-leave-active {
+  animation: bounce-in 0.5s reverse;
 }
 
 @keyframes bounce-in {
@@ -124,5 +128,10 @@ input {
   100% {
     transform: scale(1);
   }
+}
+
+i{
+  float: right;
+  cursor: pointer;
 }
 </style>
