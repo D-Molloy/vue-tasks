@@ -8,12 +8,20 @@
 
 
 <!-- <script>
-// export default {
-//   name: "Tasks",
-//   data() {
-//     return {
-//         their_name: this.$route.params.name
-//     };
-//   },
-// };
-// </script>
+export default {
+  name: "Tasks",
+  data() {
+    return {
+        their_name: this.$route.params.name
+    };
+  },
+};
+</script>
+-->
+
+<style>
+.about{
+    background: #fff;
+    padding: 20px;
+}
+</style>
