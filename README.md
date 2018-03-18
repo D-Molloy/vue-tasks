@@ -1,2 +1,2 @@
 # Introducing:  The Denny-Do List
-I've wanted to try Vue for a long time now, so my first porject I built this simple take app.  Vue is incredible and I can't wait to dive in deeper!
+After working in React, I was hungry to try out another framework, so I picked Vue due to its surging popularity. I built this single-page app as a way to familiarize myself with the framework, and was blown away by the ease of use.  Two-way data binding, templating, vue-router, directives, transition groups, component-scoped styles, and input validation with VeeValidate are so intuitive and easy to implement.  Add a dash of Animate.css for what might be the snazziest task list you've ever used! I look forward to digging deeper into Vue in an upcoming project.
